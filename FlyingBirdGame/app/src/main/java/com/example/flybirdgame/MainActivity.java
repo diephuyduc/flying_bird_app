@@ -50,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 soundStatus = !soundStatus;
                 if(!soundStatus){
-                    mediaPlayer.setVolume(0,0);
+                    mediaPlayer.pause();
                     volume.setImageResource(R.drawable.volume_mute);
 
                 }
                 else{
+                    mediaPlayer.start();
                     mediaPlayer.setVolume(1,1);
                     volume.setImageResource(R.drawable.volume_up);
                 }
@@ -73,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.pause();
     }
 
     public void setAnimation(ImageView view){

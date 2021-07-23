@@ -3,6 +3,7 @@ package com.example.flybirdgame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlay;
     private Animation animation;
     private MediaPlayer mediaPlayer;
-    private boolean soundStatus = true;
+    private boolean soundStatus;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setAnimation(sprite2);
         setAnimation(sprite3);
         setAnimation(coin);
+        getSound();
 
 
     }
@@ -44,7 +48,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mediaPlayer = MediaPlayer.create(this, R.raw.happy);
-        mediaPlayer.start();
+        getSound();
+        if(soundStatus ==true){
+            mediaPlayer.start();
+
+        }
+        Toast.makeText(this, ""+soundStatus, Toast.LENGTH_LONG).show();
+
         volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer.setVolume(1,1);
                     volume.setImageResource(R.drawable.volume_up);
                 }
+                setSound();
 
             }
         });
@@ -75,11 +86,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void getSound(){
+        sharedPreferences = this.getSharedPreferences("sound", MODE_PRIVATE);
+        soundStatus = sharedPreferences.getBoolean("sound", true);
+        if(soundStatus == true){
+            volume.setImageResource(R.drawable.volume_up);
+        }
+        else{
+            volume.setImageResource(R.drawable.volume_mute);
+        }
 
+    }
+    public void setSound(){
+        sharedPreferences = this.getSharedPreferences("sound", MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("sound", soundStatus).apply();
+    }
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
+        System.out.println("On pause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mediaPlayer.reset();
     }
 
     public void setAnimation(ImageView view){

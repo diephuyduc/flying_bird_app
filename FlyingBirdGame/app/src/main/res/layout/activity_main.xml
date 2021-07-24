@@ -132,6 +132,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:background="@drawable/design_start_button"
-        android:text="Choi Ngay" />
+        android:text="Chơi Ngay" />
 
 </LinearLayout>

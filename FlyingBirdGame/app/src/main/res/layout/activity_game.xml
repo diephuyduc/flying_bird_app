@@ -34,7 +34,7 @@
         android:id="@+id/textViewStartInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap to play"
+        android:text="Nhấp vào để bắt đầu chơi"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
